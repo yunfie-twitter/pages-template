@@ -83,7 +83,16 @@ Twitter (X)、GitHub、YouTube、note などのリンクを追加・編集でき
 
 ### 4. 音楽・動画トラックの編集 (`src/data/tracks.ts`)
 
-YouTubeの動画IDを指定するだけで、「MUSIC / WORKS」セクションにカード形式で表示されます。
+YouTubeの動画IDを指定するだけで、「MUSIC」セクションにカード形式で表示されます。
+
+> [!TIP]
+> **未記入セクションの自動非表示機能**  
+> 掲載する情報がないセクションは、データを空（または空文字）に設定するだけで、セクション本体およびヘッダー・フッターのメニューから**自動的に非表示**になります。
+> - `MUSIC` (`src/data/tracks.ts`): 配列を `export const tracks: Track[] = [];` にすると非表示
+> - `REPOSITORY` (`src/data/repositories.ts`): 配列を `export const repositories: RepositoryLink[] = [];` にすると非表示
+> - `NEWS`: ブログ記事が0件の場合、トップページのNEWSセクションとメニューが非表示
+> - `LINKS` (`src/data/links.ts`): 配列を空にすると非表示
+> - `CONTACT` (`src/site.config.ts`): `contact.email: ""` にするとお問い合わせフォームが非表示
 
 ### 5. ブログ記事の追加 (`src/content/blog/`)
 

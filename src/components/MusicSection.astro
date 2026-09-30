@@ -1,14 +1,15 @@
 ---
 import { getYoutubeHref, getYoutubeThumbnail, tracks } from "../data/tracks";
+
+const hasTracks = tracks.length > 0;
 ---
 
-<section id="music" class="section">
-  <h2>MUSIC</h2>
+{
+  hasTracks && (
+    <section id="music" class="section">
+      <h2>MUSIC</h2>
+      <p>音楽や動画作品のリストです。</p>
 
-  <p>ゆんふぃの公式楽曲リストです。</p>
-
-  {
-    tracks.length > 0 ? (
       <div class="music-grid">
         {tracks.map((track) => (
           <a
@@ -35,8 +36,6 @@ import { getYoutubeHref, getYoutubeThumbnail, tracks } from "../data/tracks";
           </a>
         ))}
       </div>
-    ) : (
-      <p class="music-empty">楽曲は準備中です。</p>
-    )
-  }
-</section>
+    </section>
+  )
+}

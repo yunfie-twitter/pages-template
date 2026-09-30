@@ -1,4 +1,8 @@
 ---
+import { profileLinks } from "../data/links";
+import { getBlogPosts } from "../data/posts";
+import { repositories } from "../data/repositories";
+import { tracks } from "../data/tracks";
 import { siteConfig } from "../site.config";
 import { withBase } from "../utils/paths";
 
@@ -7,14 +11,21 @@ const normalizedHomeHref = homeHref.startsWith("/") ? withBase(homeHref) : homeH
 const rootHref = withBase("/");
 const sectionPrefix = normalizedHomeHref === "#home" ? "" : rootHref;
 
+const posts = await getBlogPosts();
+const hasNews = posts.length > 0;
+const hasMusic = tracks.length > 0;
+const hasRepository = repositories.length > 0;
+const hasLinks = profileLinks.length > 0;
+const hasContact = Boolean(siteConfig.contact.email && siteConfig.contact.email.trim() !== "");
+
 const navItems = [
   { href: `${normalizedHomeHref}`, label: "TOP" },
   { href: `${sectionPrefix}#about`, label: "ABOUT" },
-  { href: `${sectionPrefix}#news`, label: "NEWS" },
-  { href: `${sectionPrefix}#music`, label: "MUSIC" },
-  { href: `${sectionPrefix}#repository`, label: "REPOSITORY" },
-  { href: `${sectionPrefix}#links`, label: "LINKS" },
-  { href: `${sectionPrefix}#contact`, label: "CONTACT" }
+  ...(hasNews ? [{ href: `${sectionPrefix}#news`, label: "NEWS" }] : []),
+  ...(hasMusic ? [{ href: `${sectionPrefix}#music`, label: "MUSIC" }] : []),
+  ...(hasRepository ? [{ href: `${sectionPrefix}#repository`, label: "REPOSITORY" }] : []),
+  ...(hasLinks ? [{ href: `${sectionPrefix}#links`, label: "LINKS" }] : []),
+  ...(hasContact ? [{ href: `${sectionPrefix}#contact`, label: "CONTACT" }] : [])
 ];
 
 const hasAtMark = siteConfig.handle.startsWith("@");

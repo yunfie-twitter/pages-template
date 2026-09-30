@@ -1,7 +1,17 @@
 ---
+import { profileLinks } from "../data/links";
+import { getBlogPosts } from "../data/posts";
+import { repositories } from "../data/repositories";
+import { tracks } from "../data/tracks";
 import { siteConfig } from "../site.config";
 import { withBase } from "../utils/paths";
-import { profileLinks } from "../data/links";
+
+const posts = await getBlogPosts();
+const hasNews = posts.length > 0;
+const hasMusic = tracks.length > 0;
+const hasRepository = repositories.length > 0;
+const hasLinks = profileLinks.length > 0;
+const hasContact = Boolean(siteConfig.contact.email && siteConfig.contact.email.trim() !== "");
 
 const footerSocialLinks = profileLinks.slice(0, 4);
 const logoWord = siteConfig.handle.startsWith("@")
@@ -18,11 +28,11 @@ const logoWord = siteConfig.handle.startsWith("@")
 
     <nav class="footer-nav" aria-label="フッターナビゲーション">
       <a href={withBase("/#about")}>ABOUT</a>
-      <a href={withBase("/#news")}>NEWS</a>
-      <a href={withBase("/#music")}>MUSIC</a>
-      <a href={withBase("/#repository")}>REPOSITORY</a>
-      <a href={withBase("/#links")}>LINKS</a>
-      <a href={withBase("/#contact")}>CONTACT</a>
+      {hasNews && <a href={withBase("/#news")}>NEWS</a>}
+      {hasMusic && <a href={withBase("/#music")}>MUSIC</a>}
+      {hasRepository && <a href={withBase("/#repository")}>REPOSITORY</a>}
+      {hasLinks && <a href={withBase("/#links")}>LINKS</a>}
+      {hasContact && <a href={withBase("/#contact")}>CONTACT</a>}
       <a href={withBase("/blog/")}>BLOG</a>
       <a href={withBase("/privacy-policy/")}>PRIVACY</a>
     </nav>
