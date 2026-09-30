@@ -143,6 +143,9 @@ thumbnail: "https://example.com/image.jpg" # 省略可
 
 ---
 
-## 📄 ライセンス
+## 📄 ライセンス & 著作権表示
 
-MIT License
+本テンプレートは [MIT License](LICENSE) のもとで公開されています。  
+**Copyright (c) 2026 yunfie**
+
+サイト制作・公開にあたってクレジット（フッターの `Template designed by yunfie`）を保持していただくようお願いいたします。

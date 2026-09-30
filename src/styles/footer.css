@@ -201,6 +201,17 @@
   letter-spacing: 0;
 }
 
+.footer-credit a {
+  color: var(--white);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+}
+
+.footer-credit a:hover {
+  opacity: 0.8;
+}
+
 .footer-top {
   display: inline-grid;
   place-items: center;
