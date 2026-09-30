@@ -1,14 +1,20 @@
+---
+import { siteConfig } from "../site.config";
+
+const { contact } = siteConfig;
+---
+
 <section id="contact" class="section contact-section">
   <div class="contact-panel">
     <div class="contact-copy">
       <span class="contact-label">CONTACT</span>
       <h2>CONTACT</h2>
 
-      <p>お問い合わせやご連絡は、こちらのメールフォームからお願いします。</p>
-      <a class="contact-mail" href="mailto:yunfie168@proton.me">yunfie168@proton.me</a>
+      <p>{contact.description}</p>
+      <a class="contact-mail" href={`mailto:${contact.email}`}>{contact.email}</a>
     </div>
 
-    <form id="contactForm" class="contact-form">
+    <form id="contactForm" class="contact-form" data-email={contact.email}>
       <label>
         <span>NAME</span>
         <input name="name" type="text" autocomplete="name" placeholder="お名前" />

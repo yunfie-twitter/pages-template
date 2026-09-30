@@ -1,5 +1,5 @@
 {
-  "name": "yunfie-homepage",
+  "name": "astro-portfolio-template",
   "type": "module",
   "scripts": {
     "dev": "astro dev",

@@ -1,18 +1,19 @@
 ---
+import { siteConfig } from "../site.config";
 import { withBase } from "../utils/paths";
-import { profileLinks, type ProfileLink } from "../data/links";
+import { profileLinks } from "../data/links";
 
-const footerSocialNames = ["X", "Instagram", "misskey.io", "YouTube"];
-const footerSocialLinks = footerSocialNames
-  .map((name) => profileLinks.find((link) => link.name === name))
-  .filter((link): link is ProfileLink => Boolean(link));
+const footerSocialLinks = profileLinks.slice(0, 4);
+const logoWord = siteConfig.handle.startsWith("@")
+  ? siteConfig.handle.slice(1)
+  : siteConfig.author || siteConfig.siteName;
 ---
 
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a class="footer-logo" href={withBase("/")}>yunfie</a>
-      <p>Official archive of web, music, notes, and tiny experiments.</p>
+      <a class="footer-logo" href={withBase("/")}>{logoWord}</a>
+      <p>{siteConfig.footer.tagline}</p>
     </div>
 
     <nav class="footer-nav" aria-label="フッターナビゲーション">
@@ -26,9 +27,9 @@ const footerSocialLinks = footerSocialNames
       <a href={withBase("/privacy-policy/")}>PRIVACY</a>
     </nav>
 
-    <nav class="footer-social" aria-label="ソーシャルリンク">
-      {
-        footerSocialLinks.map((link) => (
+    {footerSocialLinks.length > 0 && (
+      <nav class="footer-social" aria-label="ソーシャルリンク">
+        {footerSocialLinks.map((link) => (
           <a
             href={link.url}
             target="_blank"
@@ -39,12 +40,12 @@ const footerSocialLinks = footerSocialNames
             <img src={link.icon} alt="" loading="lazy" width="22" height="22" />
             <span>{link.name === "misskey.io" ? "Misskey" : link.name}</span>
           </a>
-        ))
-      }
-    </nav>
+        ))}
+      </nav>
+    )}
 
     <div class="footer-bottom">
-      <small>&copy; 2026 yunfie. All Rights Reserved.</small>
+      <small>&copy; {siteConfig.footer.copyrightYear} {siteConfig.author}. All Rights Reserved.</small>
       <a class="footer-top" href="#home" aria-label="ページ上部へ戻る">TOP</a>
     </div>
   </div>

@@ -1,7 +1,24 @@
-node_modules/
+# Build outputs
 dist/
 .astro/
+
+# Dependencies
+node_modules/
+
+# Environment files
 .env
 .env.*
+
+# Logs
+*.log
 npm-debug.log*
-task_1781094173454-3203/
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Temporary directories
+task_*/

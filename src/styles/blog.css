@@ -303,7 +303,7 @@
 }
 
 .blog-page::before {
-  content: "YUNFIE JOURNAL";
+  content: "JOURNAL / BLOG";
   position: fixed;
   left: clamp(18px, 4vw, 44px);
   top: 50%;
@@ -607,7 +607,7 @@
 }
 
 .article-page::before {
-  content: "YUNFIE / ARTICLE";
+  content: "PORTFOLIO / ARTICLE";
   position: fixed;
   right: clamp(14px, 3vw, 34px);
   top: 50%;

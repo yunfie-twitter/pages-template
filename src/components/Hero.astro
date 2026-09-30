@@ -1,14 +1,20 @@
+---
+import { siteConfig } from "../site.config";
+
+const { hero } = siteConfig;
+---
+
 <section id="home" class="hero">
   <div class="hero-content">
-    <p class="hero-kicker">Official Website</p>
-    <h1 class="hero-title">@yunfie</h1>
+    <p class="hero-kicker">{hero.kicker}</p>
+    <h1 class="hero-title">{hero.title}</h1>
     <p class="hero-copy">
-      調べて、作って、公開する。Web・音楽・ソフトウェアの断片を、静かに置いていく場所。
+      {hero.copy}
     </p>
 
     <div class="hero-actions">
-      <a href="#about" class="button hero-btn-primary">About</a>
-      <a href="#links" class="button button-ghost hero-btn-secondary">Links</a>
+      <a href={hero.primaryBtnHref} class="button hero-btn-primary">{hero.primaryBtnText}</a>
+      <a href={hero.secondaryBtnHref} class="button button-ghost hero-btn-secondary">{hero.secondaryBtnText}</a>
     </div>
   </div>
 </section>

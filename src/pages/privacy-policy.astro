@@ -1,14 +1,15 @@
 ---
 import ArticleShell from "../components/ArticleShell.astro";
 import PageLayout from "../components/PageLayout.astro";
+import { siteConfig } from "../site.config";
 import { withBase } from "../utils/paths";
 
 const updatedAt = "2026-06-11";
 ---
 
 <PageLayout
-  title="Privacy Policy | yunfie"
-  description="yunfieのプライバシーポリシーです。Google Analytics、Cookie、アクセス解析に関する情報を掲載しています。"
+  title={`Privacy Policy | ${siteConfig.siteName}`}
+  description={`${siteConfig.siteName}のプライバシーポリシーです。Google Analytics、Cookie、アクセス解析に関する情報を掲載しています。`}
   homeHref="/"
 >
   <ArticleShell
@@ -17,7 +18,7 @@ const updatedAt = "2026-06-11";
     date={updatedAt}
     label="Site Policy"
     title="Privacy Policy"
-    lead="このページでは、yunfieにおけるアクセス解析、Cookie、外部サービスの利用について説明します。"
+    lead={`このページでは、${siteConfig.siteName}におけるアクセス解析、Cookie、外部サービスの利用について説明します。`}
   >
     <h2>アクセス解析について</h2>
     <p>

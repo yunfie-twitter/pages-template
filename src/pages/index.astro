@@ -9,44 +9,42 @@ import PageLayout from "../components/PageLayout.astro";
 import RepositorySection from "../components/RepositorySection.astro";
 import { profileLinks } from "../data/links";
 import { getBlogPosts } from "../data/posts";
+import { siteConfig } from "../site.config";
 import { withBase } from "../utils/paths";
 
 const posts = await getBlogPosts();
-const siteUrl = Astro.site ?? new URL("https://yunfie-twitter.github.io");
+const siteUrl = Astro.site ?? new URL(siteConfig.siteUrl);
 const canonicalUrl = new URL(withBase("/"), siteUrl).toString();
-const ogImageUrl = new URL(withBase("/ogp.png"), siteUrl).toString();
-const description =
-  "ゆんふぃの公式ホームページです。YouTube、GitHub、Ko-fi、note、X、Instagram、Misskeyなどの活動リンクをまとめています。";
+const ogImageUrl = new URL(withBase(siteConfig.ogImage), siteUrl).toString();
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "ゆんふぃ",
-  alternateName: ["Yunfie", "yunfie"],
+  name: siteConfig.author,
+  alternateName: [siteConfig.handle],
   url: canonicalUrl,
   sameAs: profileLinks.map((link) => link.url),
-  description:
-    "ゆんふぃの公式ホームページです。各種SNS・制作活動・投稿サイトへのリンクをまとめています。"
+  description: siteConfig.description
 };
 ---
 
 <PageLayout
-  title="ゆんふぃ | Official Website"
-  description={description}
+  title={siteConfig.title}
+  description={siteConfig.description}
   canonicalUrl={canonicalUrl}
   og={{
-    siteName: "ゆんふぃ Official Website",
-    title: "ゆんふぃ | Official Website",
-    description: "ゆんふぃの各種SNS・制作活動・投稿サイトへのリンクをまとめた公式ホームページです。",
+    siteName: siteConfig.siteName,
+    title: siteConfig.title,
+    description: siteConfig.description,
     url: canonicalUrl,
     image: ogImageUrl
   }}
   twitter={{
-    title: "ゆんふぃ | Official Website",
-    description: "ゆんふぃのYouTube、GitHub、Ko-fi、note、X、Instagramなどをまとめたホームページです。",
+    title: siteConfig.title,
+    description: siteConfig.description,
     image: ogImageUrl,
-    site: "@yunfie_misskey",
-    creator: "@yunfie_misskey"
+    site: siteConfig.twitterHandle,
+    creator: siteConfig.twitterHandle
   }}
   jsonLd={jsonLd}
 >

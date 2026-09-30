@@ -6,6 +6,7 @@ import GoogleHead from "./GoogleHead.astro";
 import Header from "./Header.astro";
 import Loader from "./Loader.astro";
 import TopButton from "./TopButton.astro";
+import { siteConfig } from "../site.config";
 import { withBase } from "../utils/paths";
 import "katex/dist/katex.min.css";
 import "../styles/global.css";
@@ -44,10 +45,12 @@ const {
   twitter,
   jsonLd
 } = Astro.props;
+
+const hasGA = Boolean(siteConfig.googleAnalyticsId && siteConfig.googleAnalyticsId.trim() !== "");
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang="ja" data-ga-id={siteConfig.googleAnalyticsId}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -56,15 +59,11 @@ const {
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="ゆんふぃ" />
+    <meta name="author" content={siteConfig.author} />
     <meta name="robots" content={robots} />
     <meta name="theme-color" content="#ffffff" />
-    <link rel="alternate" type="application/rss+xml" title="yunfie Blog RSS" href={withBase("/rss.xml")} />
-    <link
-      rel="icon"
-      type="image/webp"
-      href="https://proxy.pjsekai.world/image.webp?url=https://yt3.googleusercontent.com/sLRN8C_Bqv9bSaBZ-dX61Wlkjj6Zl92_EBfPNrSQA7XVU0_YuLOaZA-vF2P-1X1d6tcSplJtCA=s900-c-k-c0x00ffffff-no-rj"
-    />
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.siteName} RSS`} href={withBase("/rss.xml")} />
+    <link rel="icon" type="image/svg+xml" href={siteConfig.avatar} />
 
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
@@ -77,7 +76,7 @@ const {
           {og.description && <meta property="og:description" content={og.description} />}
           {og.url && <meta property="og:url" content={og.url} />}
           {og.image && <meta property="og:image" content={og.image} />}
-          <meta property="og:locale" content={og.locale ?? "ja_JP"} />
+          <meta property="og:locale" content={og.locale ?? siteConfig.locale ?? "ja_JP"} />
         </>
       )
     }
@@ -113,6 +112,6 @@ const {
     <Footer />
     <TopButton />
     <ExternalLinkModal />
-    <CookieBanner />
+    {hasGA && <CookieBanner />}
   </body>
 </html>

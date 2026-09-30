@@ -1,13 +1,13 @@
 ---
 import PageLayout from "../components/PageLayout.astro";
+import { siteConfig } from "../site.config";
 import { withBase } from "../utils/paths";
 
-const description =
-  "お探しのページは見つかりませんでした。ゆんふぃ公式ホームページのトップへ戻るための404ページです。";
+const description = `お探しのページは見つかりませんでした。${siteConfig.siteName}のトップへ戻るための404ページです。`;
 ---
 
 <PageLayout
-  title="404 | Page Not Found | yunfie"
+  title={`404 | Page Not Found | ${siteConfig.siteName}`}
   description={description}
   robots="noindex, follow"
   homeHref="/"

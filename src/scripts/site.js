@@ -431,7 +431,8 @@ contactForm?.addEventListener("submit", (event) => {
     .filter((line, index) => line || index === 2)
     .join("\n");
 
-  const mailto = new URL("mailto:yunfie168@proton.me");
+  const targetEmail = contactForm.dataset.email || "hello@example.com";
+  const mailto = new URL(`mailto:${targetEmail}`);
   mailto.searchParams.set("subject", subject || "お問い合わせ");
   mailto.searchParams.set("body", body);
 
@@ -439,95 +440,94 @@ contactForm?.addEventListener("submit", (event) => {
 });
 
 // =========================
-// Cookie Consent Banner
+// Cookie Consent Banner & Analytics
 // =========================
 
-const COOKIE_KEY = "yunfie_cookie_consent";
-const GA_MEASUREMENT_ID = "G-678KKVFQ92";
+const COOKIE_KEY = "site_cookie_consent";
+const GA_MEASUREMENT_ID = document.documentElement.dataset.gaId || "";
 const cookieBanner = document.getElementById("cookieBanner");
 const cookieAccept = document.getElementById("cookieAccept");
 const cookieDeny = document.getElementById("cookieDeny");
 
-const enableAnalytics = () => {
-  if (typeof window.gtag === "function") {
-    window.gtag("consent", "update", { analytics_storage: "granted" });
-    window.gtag("config", GA_MEASUREMENT_ID, {
-      page_location: window.location.href,
-      page_path: window.location.pathname,
-      page_title: document.title
-    });
-  }
-};
+if (GA_MEASUREMENT_ID && cookieBanner) {
+  const enableAnalytics = () => {
+    if (typeof window.gtag === "function") {
+      window.gtag("consent", "update", { analytics_storage: "granted" });
+      window.gtag("config", GA_MEASUREMENT_ID, {
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        page_title: document.title
+      });
+    }
+  };
 
-const disableAnalytics = () => {
-  if (typeof window.gtag === "function") {
-    window.gtag("consent", "update", { analytics_storage: "denied" });
-  }
-};
+  const disableAnalytics = () => {
+    if (typeof window.gtag === "function") {
+      window.gtag("consent", "update", { analytics_storage: "denied" });
+    }
+  };
 
-const applyConsent = (granted) => {
-  if (granted) {
-    enableAnalytics();
-    return;
-  }
-
-  disableAnalytics();
-};
-
-const hideBanner = () => {
-  if (cookieBanner) cookieBanner.hidden = true;
-  document.body.classList.remove("has-cookie-banner");
-};
-
-const showCookieBanner = () => {
-  if (!cookieBanner) return;
-  cookieBanner.hidden = false;
-  document.body.classList.add("has-cookie-banner");
-};
-
-const savedConsent = localStorage.getItem(COOKIE_KEY);
-
-if (savedConsent === null) {
-  // 未選択 — ファーストビュー（Hero）を離れてからバナーを表示
-  const showBannerWhenReady = () => {
-    if (!cookieBanner) return;
-
-    if (!hero) {
-      // Heroがないページ（ブログ等）はローダー完了後すぐに表示
-      showCookieBanner();
+  const applyConsent = (granted) => {
+    if (granted) {
+      enableAnalytics();
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const heroVisible = entries[0]?.isIntersecting ?? true;
-        if (!heroVisible) {
-          showCookieBanner();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0 }
-    );
-
-    observer.observe(hero);
+    disableAnalytics();
   };
 
-  // ローダー完了後に監視を開始
-  window.addEventListener("load", () => {
-    setTimeout(showBannerWhenReady, 1600);
+  const hideBanner = () => {
+    if (cookieBanner) cookieBanner.hidden = true;
+    document.body.classList.remove("has-cookie-banner");
+  };
+
+  const showCookieBanner = () => {
+    if (!cookieBanner) return;
+    cookieBanner.hidden = false;
+    document.body.classList.add("has-cookie-banner");
+  };
+
+  const savedConsent = localStorage.getItem(COOKIE_KEY);
+
+  if (savedConsent === null) {
+    const showBannerWhenReady = () => {
+      if (!cookieBanner) return;
+
+      if (!hero) {
+        showCookieBanner();
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const heroVisible = entries[0]?.isIntersecting ?? true;
+          if (!heroVisible) {
+            showCookieBanner();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0 }
+      );
+
+      observer.observe(hero);
+    };
+
+    window.addEventListener("load", () => {
+      setTimeout(showBannerWhenReady, 1600);
+    });
+  } else {
+    applyConsent(savedConsent === "granted");
+  }
+
+  cookieAccept?.addEventListener("click", () => {
+    localStorage.setItem(COOKIE_KEY, "granted");
+    applyConsent(true);
+    hideBanner();
   });
-} else {
-  applyConsent(savedConsent === "granted");
+
+  cookieDeny?.addEventListener("click", () => {
+    localStorage.setItem(COOKIE_KEY, "denied");
+    applyConsent(false);
+    hideBanner();
+  });
 }
-
-cookieAccept?.addEventListener("click", () => {
-  localStorage.setItem(COOKIE_KEY, "granted");
-  applyConsent(true);
-  hideBanner();
-});
-
-cookieDeny?.addEventListener("click", () => {
-  localStorage.setItem(COOKIE_KEY, "denied");
-  applyConsent(false);
-  hideBanner();
-});

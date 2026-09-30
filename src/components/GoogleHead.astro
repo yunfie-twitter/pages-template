@@ -1,14 +1,32 @@
-<meta name="google-site-verification" content="wnK_rnN5ZT49WvbmE-s4ZxSTiqJdGH_cXmg1y8Q0Iuc" />
+---
+import { siteConfig } from "../site.config";
 
-<!-- Google tag (gtag.js) - consent required before analytics collection -->
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag() { window.dataLayer.push(arguments); };
-  window.gtag("js", new Date());
-  window.gtag("consent", "default", {
-    analytics_storage: "denied",
-    wait_for_update: 500,
-  });
-  window.gtag("config", "G-678KKVFQ92", { send_page_view: false });
-</script>
-<script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-678KKVFQ92"></script>
+const { googleAnalyticsId, googleSiteVerification } = siteConfig;
+const hasGA = Boolean(googleAnalyticsId && googleAnalyticsId.trim() !== "");
+const hasVerification = Boolean(googleSiteVerification && googleSiteVerification.trim() !== "");
+---
+
+{hasVerification && (
+  <meta name="google-site-verification" content={googleSiteVerification} />
+)}
+
+{hasGA && (
+  <>
+    <!-- Google tag (gtag.js) - consent required before analytics collection -->
+    <script is:inline define:vars={{ googleAnalyticsId }}>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag() { window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("consent", "default", {
+        analytics_storage: "denied",
+        wait_for_update: 500,
+      });
+      window.gtag("config", googleAnalyticsId, { send_page_view: false });
+    </script>
+    <script
+      type="text/partytown"
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+    />
+  </>
+)}
